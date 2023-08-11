@@ -1,11 +1,13 @@
 package dev.h4kt.minecraftquery.srv
 
+import dev.h4kt.minecraftquery.srv.results.SrvLookupResult
+
 interface SrvResolver {
 
-    suspend fun resolveSrvRecords(
+    suspend fun lookupSrvRecords(
         hostName: String,
         service: String,
         protocol: String
-    ): SrvResolveResult
+    ): SrvLookupResult
 
 }

@@ -1,4 +1,4 @@
-package dev.h4kt.minecraftquery.engines.tcp.packets
+package dev.h4kt.minecraftquery.engines.tcp.packets.client
 
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream

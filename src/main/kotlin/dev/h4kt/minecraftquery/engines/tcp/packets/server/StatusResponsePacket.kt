@@ -1,10 +1,15 @@
-package dev.h4kt.minecraftquery.engines.tcp.responses
+package dev.h4kt.minecraftquery.engines.tcp.packets.server
 
 import dev.h4kt.minecraftquery.serializers.SerialUUID
 import kotlinx.serialization.Serializable
 
+/**
+ * Server list ping status response packet
+ *
+ * [Reference](https://wiki.vg/Server_List_Ping#Status_Response)
+ */
 @Serializable
-internal data class TCPStatusResponse(
+internal data class StatusResponsePacket(
     val version: Version,
     val players: Players,
     val description: Description,

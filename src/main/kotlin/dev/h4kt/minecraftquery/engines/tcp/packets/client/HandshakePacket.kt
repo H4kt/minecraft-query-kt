@@ -1,9 +1,14 @@
-package dev.h4kt.minecraftquery.engines.tcp.packets
+package dev.h4kt.minecraftquery.engines.tcp.packets.client
 
 import dev.h4kt.minecraftquery.extensions.writeUShortLittleEndian
 import dev.h4kt.minecraftquery.extensions.writeVarInt
 import java.io.OutputStream
 
+/**
+ * Server list ping handshake packet
+ *
+ * [Reference](https://wiki.vg/Server_List_Ping#Handshake)
+ */
 internal data class HandshakePacket(
     val protocolVersion: Int,
     val serverAddress: String,

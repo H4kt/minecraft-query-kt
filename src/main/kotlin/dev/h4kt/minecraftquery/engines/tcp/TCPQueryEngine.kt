@@ -1,10 +1,10 @@
 package dev.h4kt.minecraftquery.engines.tcp
 
 import dev.h4kt.minecraftquery.engines.QueryEngine
-import dev.h4kt.minecraftquery.engines.tcp.packets.HandshakePacket
-import dev.h4kt.minecraftquery.engines.tcp.packets.Packet
-import dev.h4kt.minecraftquery.engines.tcp.packets.StatusRequestPacket
-import dev.h4kt.minecraftquery.engines.tcp.responses.TCPStatusResponse
+import dev.h4kt.minecraftquery.engines.tcp.packets.client.HandshakePacket
+import dev.h4kt.minecraftquery.engines.tcp.packets.client.Packet
+import dev.h4kt.minecraftquery.engines.tcp.packets.client.StatusRequestPacket
+import dev.h4kt.minecraftquery.engines.tcp.packets.server.StatusResponsePacket
 import dev.h4kt.minecraftquery.types.BasicServerInfo
 import dev.h4kt.minecraftquery.types.FullServerInfo
 import io.ktor.network.selector.*
@@ -12,8 +12,16 @@ import io.ktor.network.sockets.*
 import io.ktor.util.cio.*
 import io.ktor.utils.io.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 
+/**
+ * A query engine implementing Minecraft server list ping query protocol
+ *
+ * Current implementation is only for Minecraft versions 1.7 and higher
+ *
+ * [Reference](https://wiki.vg/Server_List_Ping)
+ */
 class TCPQueryEngine(
     val protocolVersion: Int
 ) : QueryEngine {
@@ -68,7 +76,7 @@ class TCPQueryEngine(
         host: String,
         port: UShort,
         protocolVersion: Int
-    ): TCPStatusResponse {
+    ): StatusResponsePacket {
 
         val selectorManager = SelectorManager(Dispatchers.IO)
         val socket = aSocket(selectorManager).tcp().connect(host, port.toInt())
@@ -93,6 +101,11 @@ class TCPQueryEngine(
 
         val data = readChannel.readUTF8Line()
             ?: throw IllegalStateException("No response from server")
+
+        withContext(Dispatchers.IO) {
+            socket.close()
+            selectorManager.close()
+        }
 
         return json.decodeFromString(data)
     }

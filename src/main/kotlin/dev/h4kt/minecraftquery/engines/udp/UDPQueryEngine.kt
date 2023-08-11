@@ -18,6 +18,11 @@ import java.net.InetSocketAddress
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
+/**
+ * A query engine implementing Minecraft UDP query protocol
+ *
+ * [Reference](https://wiki.vg/Query)
+ */
 class UDPQueryEngine(
     val timeout: Duration = 1.seconds,
     val sessionIdFactory: () -> Int = { (0..255).random() }

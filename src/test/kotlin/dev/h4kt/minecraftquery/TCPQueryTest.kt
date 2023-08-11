@@ -1,16 +1,15 @@
 package dev.h4kt.minecraftquery
 
 import dev.h4kt.minecraftquery.client.QueryClient
-import dev.h4kt.minecraftquery.engines.udp.UDPQueryEngine
+import dev.h4kt.minecraftquery.engines.tcp.TCPQueryEngine
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
-import kotlin.time.Duration.Companion.seconds
 
-class UDPQueryTest {
+class TCPQueryTest {
 
     private val client = QueryClient {
-        engine = UDPQueryEngine(
-            timeout = 5.seconds
+        engine = TCPQueryEngine(
+            protocolVersion = 763 // Minecraft 1.20.1 (https://wiki.vg/Protocol_version_numbers)
         )
     }
 
